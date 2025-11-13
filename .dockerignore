@@ -1,0 +1,11 @@
+.git
+.github
+.idea
+target
+.editorconfig
+.gitignore
+docker-compose.yml
+mvnw.cmd
+*.png
+*.md
+*.txt
