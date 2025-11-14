@@ -2,7 +2,7 @@
 <!DOCTYPE xml>
 
 <configuration scan="true">
-    <property name="LOGS_FOLDER" value="./logs" />
+    <property name="LOGS_FOLDER" value="${LOGS_FOLDER:-./logs}" />
     <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
         <resetJUL>true</resetJUL>
     </contextListener>
