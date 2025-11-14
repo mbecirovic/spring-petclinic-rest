@@ -1,22 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
 
-<configuration scan="true" scanPeriod="30 seconds">
-
+<configuration scan="true">
+    <property name="LOGS_FOLDER" value="./logs" />
     <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
         <resetJUL>true</resetJUL>
     </contextListener>
-    
-    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+
+
+    <!-- ============================== -->
+    <!-- Common Appenders (for all envs) -->
+    <!-- ============================== -->
+
+    <!-- Console (shared) -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%-5level %logger{0} - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <!--<logger name="org.hibernate" level="debug"/> -->
-    <logger name="org.springframework.samples.petclinic" level="debug"/>
 
-    <root level="info">
-        <appender-ref ref="console"/>
-    </root>
+    <!-- =============================== -->
+    <!-- DEV ENVIRONMENT CONFIGURATION   -->
+    <!-- =============================== -->
+
+    <springProfile name="dev">
+
+        <!-- For local development -->
+        <root level="DEBUG">
+            <appender-ref ref="CONSOLE" />
+        </root>
+
+    </springProfile>
+
+
+    <!-- ==================================== -->
+    <!-- PRODUCTION ENVIRONMENT CONFIGURATION -->
+    <!-- ==================================== -->
+
+    <springProfile name="prod">
+
+        <!-- Rolling file appender -->
+        <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <!-- Log file path -->
+            <file>${LOGS_FOLDER}/app.log</file>
+
+            <!-- Rolling policy: daily + max size -->
+            <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                <fileNamePattern>${LOGS_FOLDER}/archived/app-%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
+                <maxFileSize>50MB</maxFileSize>
+                <maxHistory>14</maxHistory>
+            </rollingPolicy>
+
+            <encoder>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n</pattern>
+            </encoder>
+        </appender>
+
+        <!-- Root logger -->
+        <root level="INFO">
+            <appender-ref ref="ROLLING_FILE" />
+            <appender-ref ref="CONSOLE" />
+        </root>
+
+    </springProfile>
+
 </configuration>
