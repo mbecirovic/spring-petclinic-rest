@@ -1,4 +1,5 @@
 services:
+
   prometheus:
     image: prom/prometheus
     container_name: prometheus
@@ -6,6 +7,8 @@ services:
       - "9090:9090"
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - petclinic-network
 
   grafana:
     image: grafana/grafana
@@ -16,5 +19,13 @@ services:
     volumes:
       - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
       - grafana-storage:/var/lib/grafana
+    networks:
+      - petclinic-network
+
 volumes:
   grafana-storage:
+
+
+networks:
+  petclinic-network:
+    external: true

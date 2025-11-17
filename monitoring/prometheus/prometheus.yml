@@ -3,6 +3,6 @@ scrape_configs:
     metrics_path: '/petclinic/actuator/prometheus'
     scrape_interval: 3s
     static_configs:
-      - targets: ['host.docker.internal:9966']
+      - targets: ['backend:9966']
         labels:
           application: 'Petclinic Spring Boot Application'
