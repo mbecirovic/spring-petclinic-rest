@@ -1,8 +1,0 @@
-scrape_configs:
-  - job_name: 'PetClinicMetrics'
-    metrics_path: '/petclinic/actuator/prometheus'
-    scrape_interval: 3s
-    static_configs:
-      - targets: ['backend:9966']
-        labels:
-          application: 'Petclinic Spring Boot Application'
