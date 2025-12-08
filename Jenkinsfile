@@ -20,7 +20,7 @@ pipeline {
             steps {
                 sh """
                     # Run the new build
-                    java -jar target/*.jar
+                    java -jar target/*.jar > app.log 2>&1 &
                 """
             }
         }
